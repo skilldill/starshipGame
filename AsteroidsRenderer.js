@@ -14,7 +14,7 @@ export class AsteroidsRenderer {
     }
 
     generateAsteroids = () => {
-        for (let j = 0; j < this.sceneHeight; j++) {
+        for (let j = 0; j < this.sceneHeight - 40; j++) {
             for (let i = 0; i < this.sceneWidth * 10; i++) {
                 const random = getRandomInt(50000);
 
@@ -43,16 +43,17 @@ export class AsteroidsRenderer {
 
     renderAsteroids = () => {
         this.asteroids.forEach(({ x, y }) => {
-            if (x > -60)
+            if (x > -20)
                 this.renderAsteroid(x, y, 3);
         });
     }
 
-    moveAsteroids = () => {
+    moveAsteroids = (onEnd) => {
         this.asteroids = this.asteroids.map(({ x, y }) => {
-            if (x > -60) 
+            if (x < -20) onEnd();
+            if (x > -23) 
                 return { x: x - 2, y };
-            return { x: this.sceneWidth + 60, y };
+            return { x: this.sceneWidth + 20, y };
         });
 
         this.renderAsteroids();

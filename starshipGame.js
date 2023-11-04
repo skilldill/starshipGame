@@ -1,4 +1,5 @@
 import { AsteroidsRenderer } from "./AsteroidsRenderer";
+import { HPController } from "./HPController";
 import { ShotsRenderer } from "./ShotsRenderer";
 import { StarsRenderer } from "./StarsRenderer";
 import { StarshipRenderer } from "./StarshipRenderer";
@@ -76,6 +77,7 @@ export function initGame() {
         SCENE_WIDTH, 
         SCENE_HEIGHT
     );
+    const hpController = new HPController(sceneCtx, 100, SCENE_WIDTH, SCENE_HEIGHT);
 
     const keydownActionsMap = {
         ArrowUp: () => {
@@ -132,10 +134,14 @@ export function initGame() {
             && (shot.y >= asteroid.y && shot.y <= asteroid.y + 40)    
         );
         if (foundAsteroidIndex > -1) {
-            asteroidsRenderer.asteroids[foundAsteroidIndex].x = -100;
+            asteroidsRenderer.asteroids[foundAsteroidIndex].x = SCENE_WIDTH * 10;
             return true;
         }
         return false;
+    }
+
+    const handleEndAsteroid = () => {
+        hpController.downHP(2);
     }
 
     const rendesFns = [
@@ -147,7 +153,8 @@ export function initGame() {
             3
         ),
         () => shotsRenderer.moveShots(handleShot),
-        asteroidsRenderer.moveAsteroids,
+        () => asteroidsRenderer.moveAsteroids(handleEndAsteroid),
+        hpController.renderHP
     ];
 
     const sceneTimer = getSceneTimer(rendesFns, sceneCtx, getState, 100);

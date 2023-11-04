@@ -9,6 +9,9 @@ import { getSceneTimer } from "./sceneTimer";
 import { STARSHIP_DEFAULT_TEMPLATE_12X9 } from "./starshipTemplates";
 
 const keyboardController = document.getElementById('controller');
+const gameOverBlock = document.getElementById('gameOverBlock');
+const restartButton = document.getElementById('restartButton');
+const scoresDisplay = document.getElementById('scoresDisplay');
 const sceneCanvas = document.getElementById('gameScene');
 const sceneCtx = sceneCanvas.getContext('2d');
 
@@ -16,10 +19,16 @@ sceneCanvas.addEventListener('click', () => {
     keyboardController.focus();
 });
 
+restartButton.addEventListener('click', () => {
+    window.location.reload();
+});
+
 function clearScene(ctx) {
     ctx.fillStyle = '#000';
     ctx.fillRect(0, 0, SCENE_WIDTH, SCENE_HEIGHT);
 }
+
+let gameScores = 0;
 
 let state = {
     posX: 100,
@@ -60,7 +69,11 @@ const getHandleKeyup = (keyToActionMap) => (event) => {
     keyToActionMap[event.code]?.();
 }
 
-
+const gameOver = () => {
+    gameOverBlock.style.opacity = 1;
+    sceneCanvas.style.display = 'none';
+    scoresDisplay.innerText = `Сбито астеройдов ${gameScores}`;
+}
 
 export function initGame() {
     const starsRenderer = new StarsRenderer(sceneCtx, SCENE_WIDTH, SCENE_HEIGHT);
@@ -77,7 +90,13 @@ export function initGame() {
         SCENE_WIDTH, 
         SCENE_HEIGHT
     );
-    const hpController = new HPController(sceneCtx, 100, SCENE_WIDTH, SCENE_HEIGHT);
+    const hpController = new HPController(
+        sceneCtx, 
+        100, 
+        SCENE_WIDTH, 
+        SCENE_HEIGHT, 
+        gameOver
+    );
 
     const keydownActionsMap = {
         ArrowUp: () => {
@@ -135,6 +154,7 @@ export function initGame() {
         );
         if (foundAsteroidIndex > -1) {
             asteroidsRenderer.asteroids[foundAsteroidIndex].x = SCENE_WIDTH * 10;
+            gameScores += 1;
             return true;
         }
         return false;
@@ -144,7 +164,7 @@ export function initGame() {
         hpController.downHP(2);
     }
 
-    const rendesFns = [
+    let rendesFns = [
         clearScene,
         starsRenderer.moveStars,
         (_, currentState) => starshipRenderer.render(

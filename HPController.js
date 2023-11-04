@@ -1,13 +1,14 @@
 import { getPercent } from "./utils/getPercent";
 
 export class HPController {
-    constructor(ctx, hp, sceneWidth, sceneHeight) {
+    constructor(ctx, hp, sceneWidth, sceneHeight, onGameOver) {
         this.ctx = ctx;
         this.maxHP = hp;
         this.currentHP = hp;
         this.sceneHeight = sceneHeight;
         this.sceneWidth = sceneWidth;
         this.renderHP();
+        this.onGameOver = onGameOver
     }
 
     renderHP = () => {
@@ -25,7 +26,11 @@ export class HPController {
 
     downHP = (damageValue = 1) => {
         this.currentHP -= damageValue;
-        console.log(this.currentHP);
-        this.renderHP();
+
+        if (this.currentHP <= 0)
+            return this.onGameOver();
+
+        if (this.currentHP > 0)
+            this.renderHP();
     }
 }

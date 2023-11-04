@@ -60,3 +60,21 @@ button:focus-visible {
 #controller {
   opacity: 0;
 }
+
+#gameScene {
+  z-index: 2;
+}
+
+.gameOverBlock {
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 0;
+  display: flex;
+  margin-top: 400px;
+  align-items: center;
+  flex-direction: column;
+}

@@ -19,7 +19,8 @@ export function getSceneTimer(
         const state = getTickState();
         
         if (delta >= tick) {
-           renderFns.forEach((fn) => fn(ctx, state));
+            start = timeStamp;
+            renderFns.forEach((fn) => fn(ctx, state));
         }
 
         requestAnimationFrame(sceneTimer);

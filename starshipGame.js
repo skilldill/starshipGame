@@ -177,7 +177,7 @@ export function initGame() {
         hpController.renderHP
     ];
 
-    const sceneTimer = getSceneTimer(rendesFns, sceneCtx, getState, 100);
+    const sceneTimer = getSceneTimer(rendesFns, sceneCtx, getState, 10);
 
     sceneTimer();
 }

@@ -40,21 +40,21 @@ let state = {
 function getState() {
     switch(state.pressedVerticalKey) {
         case 'ArrowDown':
-            state = { ...state, posY: state.posY + 8 }
+            state.posY += 8;
             break;
 
         case 'ArrowUp':
-            state = { ...state, posY: state.posY - 8 }
+            state.posY -= 8;
             break;
     }
 
     switch(state.pressedHorizontalKey) {
         case 'ArrowRight':
-            state = { ...state, posX: state.posX + 3 }
+            state.posX += 3;
             break;
 
         case 'ArrowLeft':
-            state = { ...state, posX: state.posX - 3 }
+            state.posX -= 3;
             break;
     }
 
@@ -100,16 +100,16 @@ export function initGame() {
 
     const keydownActionsMap = {
         ArrowUp: () => {
-            state = { ...state, pressedVerticalKey: 'ArrowUp' }
+            state.pressedVerticalKey = 'ArrowUp';
         },
         ArrowDown: () => {
-            state = { ...state, pressedVerticalKey: 'ArrowDown' }
+            state.pressedVerticalKey = 'ArrowDown';
         },
         ArrowLeft: () => {
-            state = { ...state, pressedHorizontalKey: 'ArrowLeft' }
+            state.pressedHorizontalKey = 'ArrowLeft';
         },
         ArrowRight: () => {
-            state = { ...state, pressedHorizontalKey: 'ArrowRight' }
+            state.pressedHorizontalKey = 'ArrowRight';
         },
         Space: () => {
             shotsRenderer.addShot(
@@ -129,16 +129,16 @@ export function initGame() {
 
     const keyupActionsMap = {
         ArrowUp: () => {
-            state = { ...state, pressedVerticalKey: '' }
+            state.pressedVerticalKey = '';
         },
         ArrowDown: () => {
-            state = { ...state, pressedVerticalKey: '' }
+            state.pressedVerticalKey = '';
         },
         ArrowLeft: () => {
-            state = { ...state, pressedHorizontalKey: '' }
+            state.pressedHorizontalKey = '';
         },
         ArrowRight: () => {
-            state = { ...state, pressedHorizontalKey: '' }
+            state.pressedHorizontalKey = '';
         }
     };
 
